@@ -16,15 +16,23 @@ class WPExtractor:
         self.max_retries = max_retries
 
 
-    def print_progress(self, replace=True):
-        # print partially extracted email addresses
+    def print_progress(self, replace=True, max_display=15):
+        # only display the first few email addresses
+        # to prevent messing up the terminal on targets with many users
+        displayed_num = min(self.users_num, max_display)
+        undisplayed_num = 0 if displayed_num == self.users_num else self.users_num - displayed_num
+
         if replace:
             # move cursor up to overwrite the emails printed in last iteration
-            print("\033[A" * (len(self.emails) + 1), end="")
+            print("\033[A" * (displayed_num + 1), end="")
 
-        for email in self.emails:
+        # print partially extracted email addresses
+        for email in self.emails[:displayed_num]:
             print(email)
-        print("")
+        if undisplayed_num:
+            print(f"{undisplayed_num} more...")
+        else:
+            print("")
 
 
     def save(self, filename):
@@ -80,6 +88,7 @@ class WPExtractor:
     def extract(self, target="domain"):
         # extracts all email addresses on a character-by-character basis
         # this function should called twice, once with "domain" and once with "user"
+        # returns a boolean indicating whether the extraction attempt was successful
 
         # verify argument is valid
         if target != "domain" and target != "user":
@@ -160,7 +169,7 @@ class WPExtractor:
                         complete_emails[i] = self.emails[i]
                     completed_count += new_complete
                     idx += new_complete
-        
+
         return True
 
 
@@ -176,7 +185,7 @@ class WPExtractor:
             else:
                 # an error occured
                 return False
-            
+
         else:
             logging.error("Target does not seem vulnerable, exiting...")
             return False
