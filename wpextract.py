@@ -16,7 +16,7 @@ class WPExtractor:
         self.max_retries = max_retries
 
 
-    def print_progess(self, replace=True):
+    def print_progress(self, replace=True):
         # print partially extracted email addresses
         if replace:
             # move cursor up to overwrite the emails printed in last iteration
@@ -135,7 +135,7 @@ class WPExtractor:
                         idx += matches
                         total_found += matches
 
-                        self.print_progess()
+                        self.print_progress()
 
                     if total_found == count:
                         # once we found the next character in all emails,
@@ -169,7 +169,7 @@ class WPExtractor:
         # attempts to execute the attack and returns a boolean indicating whether it was successful
         if self.check_vulnerability():
             logging.info("Target is up and appears to be vulnerable, starting email extraction\n")
-            self.print_progess(replace=False)
+            self.print_progress(replace=False)
             if self.extract(target="domain") and self.extract(target="user"):
                 logging.info("Email extraction complete")
                 return True
