@@ -5,6 +5,8 @@ The script abuses the `search` parameter on the `/wp-json/wp/v2/users` WordPress
 
 Note: This issue is public. Public ticket available at https://core.trac.wordpress.org/ticket/53784.
 
+__Update__: This issue was assigned CVE-2023-5561 and has been fixed in WordPress version 6.3.2.
+
 ## Usage
 Run the Python script and specify the URL of the target WordPress site.
 
